@@ -211,4 +211,67 @@ ggplot(features) +
 ## Negative correlation between 'tempo' and 'danceability' can be 
 ## confirmed by density plots
 
+head(spotify)
+names(spotify)
+
+spotify %>%
+  filter(Region=="global") %>%
+dplyr::group_by(Artist) %>%
+    dplyr::summarise(n_str = sum(Streams)) %>%
+    arrange(-n_str) -> streams_global
+streams_global
+
+# Plotting global trend
+ggplot(head(streams_global,15), aes(x=reorder(Artist,n_str),y=n_str,
+                                              color = Artist)) +
+  geom_point(size=2) +
+  geom_segment(aes(x=Artist,xend = Artist, y=0, yend = n_str)) +
+  labs(title = "Global Trend by Artists", x="Artist", y="Streams") +
+  coord_flip()
+
+## 'Post Malone','Kendrick Lamar' and 'Luis Fonsi' are leading the
+## global trend by good margin
+
+
+## Checking for 'Track trend' globally
+spotify %>%
+  filter(Region=="global") %>%
+  dplyr::group_by(name) %>%
+  dplyr::summarise(n_str = sum(Streams)) %>%
+  arrange(-n_str) -> streams_global_name
+streams_global_name
+
+ggplot(head(streams_global_name,10), aes(x=reorder(name,n_str),y=n_str,
+                                    color = name)) +
+  geom_point(size=2) +
+  geom_segment(aes(x=name,xend = name, y=0, yend = n_str)) +
+  labs(title = "Global Trend by Track name", x="Name", y="Streams") +
+  coord_flip()
+## 'Shape of you' is leading globally
+
+spotify %>%
+  filter(Region=="us" & Artist=="Ed Sheeran" & Position<100) %>%
+  group_by(name) %>%
+  dplyr::summarise(cnt = n()) %>%
+  filter(cnt>20) %>%
+  arrange(-cnt)-> Ed_data_1
+
+
+spotify %>%
+  filter(name %in% Ed_data_1$name & Position<100) %>%
+  ggplot(aes(x=date(Date), y=Position, col=name)) +
+  geom_point(size=3, alpha=0.8) +
+  scale_y_reverse(breaks = seq(0,100,10)) +
+  scale_x_date() +
+  labs(title = "Song Trend", x="Date",y="Position")
+
+head(features)
+## Most important factor
+
+features[,names(fea_class[!fea_class=="character"])] %>%
+  mutate(stnd = c(1:100)) -> fea1
+
+tr_model <- rpart(stnd~., data=fea1)
+rpart.plot::rpart.plot(tr_model, box.palette = "GnBu")
+
 
