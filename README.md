@@ -2,15 +2,16 @@
 The 200 daily most streamed songs in 53 countries
 
 
-Context
+# Context
 Music streaming is ubiquitous. Currently, Spotify plays an important part on that. This dataset enable us to explore how artists and songs' popularity varies in time.
 
-Content
+# Content
 This dataset contains the daily ranking of the 200 most listened songs in 53 countries from 2017 and 2018 by Spotify users. It contains more than 2 million rows, which comprises 6629 artists, 18598 songs for a total count of one hundred five billion streams count.
 
 The data spans from 1st January 2017 to 9th January 2018 and will be kept up-to-date on following versions. It has been collected from Spotify's regional chart data.
 
-Inspiration
+# Inspiration
+
 Can you predict what is the rank position or the number of streams a song will have in the future?
 How long does songs "resist" on the top 3, 5, 10, 20 ranking?
 What are the signs of a song that gets into the top rank to stay?
